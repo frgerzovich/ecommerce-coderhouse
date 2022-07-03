@@ -1,0 +1,27 @@
+{
+  "name": "ecommerce-coderhouse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frgerzovich/ecommerce-coderhouse.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frgerzovich/ecommerce-coderhouse/issues"
+  },
+  "homepage": "https://github.com/frgerzovich/ecommerce-coderhouse#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "fs": "0.0.1-security",
+    "nodemon": "^2.0.18"
+  }
+}
