@@ -33,6 +33,7 @@ class Api {
     } else {
       try {
         product.id = this.currentId;
+        product.date = new Date.now();
         this.currentId++;
         const products = this.getAll();
         products.push(product);
@@ -61,6 +62,7 @@ class Api {
           if (product.id === id) {
             return {
               id,
+              date,
               name: editedProduct.name,
               price: editedProduct.price,
               thumbnail: editedProduct.thumbnail,
