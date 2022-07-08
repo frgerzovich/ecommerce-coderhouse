@@ -2,22 +2,22 @@ const productsApi = require("../productsApi");
 
 const api = new productsApi("products.json");
 
-const getAll = async (req, res) => {
-  try {
-    const products = await api.getAll();
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-const getById = async (req, res) => {
-  try {
-    const id = Number(req.params.id);
-    const product = await api.getById(id);
-    res.json(product);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+const get = async (req, res) => {
+  if (req.params.id) {
+    try {
+      const id = Number(req.params.id);
+      const product = await api.getById(id);
+      res.json(product);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  } else {
+    try {
+      const products = await api.getAll();
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
 };
 
@@ -51,8 +51,7 @@ const deleteProduct = async (req, res) => {
 };
 
 module.exports = {
-  getAll,
-  getById,
+  get,
   createProduct,
   editProduct,
   deleteProduct,

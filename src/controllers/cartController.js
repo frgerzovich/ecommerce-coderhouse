@@ -59,9 +59,9 @@ const addProductToCart = async (req, res) => {
 const removeProductFromCart = async (req, res) => {
   try {
     const cartId = Number(req.params.id);
-    const productId = Number(req.params.productId);
+    const productId = Number(req.params.product_id);
     const cart = await api.removeProductFromCart(cartId, productId);
-    res.json(cart);
+    res.status(200).send("El producto ha sido eliminado exitosamente");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
