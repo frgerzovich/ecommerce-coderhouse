@@ -1,5 +1,5 @@
-const fs = require("fs");
-const ProductsApi = require("./productsApi");
+import fs from "fs";
+import ProductsApi from "./containerMongo";
 const productsApi = new ProductsApi("products.json");
 
 class Api {
@@ -102,4 +102,4 @@ class Api {
   }
 }
 
-module.exports = Api;
+export default Api;

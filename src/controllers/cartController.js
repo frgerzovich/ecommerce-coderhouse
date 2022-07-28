@@ -1,4 +1,4 @@
-const cartApi = require("../cartApi");
+import cartApi from "../containers/cartContainerMongo";
 
 const api = new cartApi("carts.json");
 
@@ -67,7 +67,7 @@ const removeProductFromCart = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   createCart,
   getCartById,
   deleteCart,

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const productsCollection = "products";
 
@@ -8,7 +8,9 @@ const ProductSchema = new mongoose.Schema({
   description: { type: String, required: true },
   thumbnail: { type: String, required: true },
   stock: { type: Number, required: true },
-  timestamp: { type: Date, default: Date.now }
+  timestamp: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model(productsCollection, ProductSchema);
+const Product = mongoose.model(productsCollection, ProductSchema);
+
+export default Product;

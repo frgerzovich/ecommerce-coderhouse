@@ -1,4 +1,4 @@
-const productsApi = require("../productsApi");
+import productsApi from "../containers/productsContainerMongo";
 
 const api = new productsApi("products.json");
 
@@ -50,9 +50,4 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-module.exports = {
-  get,
-  createProduct,
-  editProduct,
-  deleteProduct,
-};
+export { get, createProduct, editProduct, deleteProduct };

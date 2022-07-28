@@ -1,4 +1,4 @@
-const productController = require("./productController");
-const cartController = require("./cartController");
+import productController from "./productController";
+import cartController from "./cartController";
 
-module.exports = { productController, cartController };
+export { productController, cartController };
