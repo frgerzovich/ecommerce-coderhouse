@@ -1,6 +1,7 @@
-import router from ("express").Router();
-import cartRouter from "./cartRoutes";
-import productRouter from "./productRoutes";
+import { Router } from "express";
+const router = Router();
+import cartRouter from "./cartRoutes.js";
+import productRouter from "./productRoutes.js";
 
 router.use("/api/carrito", cartRouter);
 router.use("/api/productos", productRouter);

@@ -5,9 +5,9 @@ class Container {
     this.collection = mongoose.model(collectionName, schema);
   }
 
-  getAll() {
+  async getAll() {
     try {
-      const allItems = await this.collection.find({},  { __v: 0 });
+      const allItems = await this.collection.find({}, { __v: 0 });
       if (!allItems) {
         const error = new Error("No hay productos");
         error.statusCode = 404;
@@ -15,12 +15,11 @@ class Container {
       }
       return allItems;
     } catch (error) {
-      throw new Error(error); 
+      throw new Error(error);
     }
-   
   }
 
-  getById(id) {
+  async getById(id) {
     try {
       const item = await this.collection.findById(id, { __v: 0 });
       if (!item) {
@@ -30,19 +29,18 @@ class Container {
       }
       return item;
     } catch (error) {
-      throw error;      
+      throw error;
     }
   }
-  
 
   async save(item) {
-   try {
-    const newItem = new this.collection(item);
-    await newItem.save();
-    return newItem;
-   } catch (error) {
-    throw error;    
-   }
+    try {
+      const newItem = new this.collection(item);
+      await newItem.save();
+      return newItem;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, item) {
@@ -52,7 +50,6 @@ class Container {
     } catch (error) {
       throw error;
     }
-    
   }
 
   async delete(id) {
@@ -63,15 +60,15 @@ class Container {
         throw error;
       }
       await this.collection.findByIdAndDelete(id);
-      console.log("Eliminación completada exitosamente")
+      console.log("Eliminación completada exitosamente");
     } catch (error) {
       throw error;
     }
   }
 
-  async addToCart() {
+  async createCart() {
     try {
-      const newCart = {timestamp: "", products: []};
+      const newCart = { timestamp: "", products: [] };
       const savedCart = await this.save(newCart);
       return savedCart;
     } catch (error) {
@@ -79,18 +76,25 @@ class Container {
     }
   }
 
-  async addProductToCart(cartId, product) {
+  async addProductToCart(cartId, productId, product) {
     try {
-
       const cart = await this.getById(cartId);
       if (!cart) {
         const error = new Error("El carrito no existe");
         error.statusCode = 404;
         throw error;
       }
+
+      if (!product) {
+        const error = new Error("El producto no existe");
+        error.statusCode = 404;
+        throw error;
+      }
+
       cart.products.push(product);
+
       await this.update(cartId, cart);
-      return cart;      
+      return cart;
     } catch (error) {
       throw error;
     }
@@ -105,7 +109,10 @@ class Container {
         throw error;
       }
       const products = cart.products;
-      const product = products.find((product) => product.id === productId);
+      console.log(products);
+      const product = products.find(
+        (product) => product._id.toString() === productId
+      );
       if (!product) {
         const error = new Error("El producto no existe");
         error.statusCode = 404;
@@ -115,10 +122,8 @@ class Container {
       products.splice(index, 1);
       await this.update(cartId, cart);
       return cart;
-
     } catch (error) {
       throw error;
-      
     }
   }
 }

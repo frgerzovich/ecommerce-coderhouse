@@ -1,20 +1,8 @@
-import cartApi from "../containers/cartContainerMongo";
-
-const api = new cartApi("carts.json");
+import { cartDao, productDao } from "../daos/index.js";
 
 const createCart = async (req, res) => {
   try {
-    const cart = await api.createCart();
-    res.json(cart);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-const getCartById = async (req, res) => {
-  try {
-    const id = Number(req.params.id);
-    const cart = await api.getById(id);
+    const cart = await cartDao.createCart();
     res.json(cart);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -23,8 +11,8 @@ const getCartById = async (req, res) => {
 
 const deleteCart = async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    const cart = await api.deleteCart(id);
+    const id = req.params.id;
+    const cart = await cartDao.delete(id);
     res.json(cart);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -33,8 +21,8 @@ const deleteCart = async (req, res) => {
 
 const getCartProducts = async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    const cart = await api.getCartProducts(id);
+    const id = req.params.id;
+    const cart = await cartDao.getById(id);
     res.json(cart);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -43,13 +31,14 @@ const getCartProducts = async (req, res) => {
 
 const addProductToCart = async (req, res) => {
   try {
-    const cartId = Number(req.params.id);
-    const productId = Number(req.body.productId);
+    const cartId = req.params.id;
+    const productId = req.body.productId;
+    const product = await productDao.getById(productId);
     if (!productId) {
       res.status(400).json({ message: "El campo 'productId' es obligatorio" });
       return;
     }
-    const cart = await api.addProductToCart(cartId, productId);
+    const cart = await cartDao.addProductToCart(cartId, productId, product);
     res.json(cart);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -58,10 +47,10 @@ const addProductToCart = async (req, res) => {
 
 const removeProductFromCart = async (req, res) => {
   try {
-    const cartId = Number(req.params.id);
-    const productId = Number(req.params.product_id);
-    const cart = await api.removeProductFromCart(cartId, productId);
-    res.status(200).send("El producto ha sido eliminado exitosamente");
+    const cartId = req.params.id;
+    const productId = req.params.product_id;
+    const cart = await cartDao.removeProductFromCart(cartId, productId);
+    res.status(200).json(cart);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -69,7 +58,6 @@ const removeProductFromCart = async (req, res) => {
 
 export {
   createCart,
-  getCartById,
   deleteCart,
   getCartProducts,
   addProductToCart,

@@ -1,6 +1,7 @@
 import express from "express";
-import env from ("dotenv").config();
-import router from "./src/routes/index";
+import env from "dotenv";
+env.config();
+import router from "./src/routes/index.js";
 import mongoose from "mongoose";
 
 const app = express();
@@ -16,7 +17,7 @@ async function mongoConnection() {
   const URL = "mongodb://localhost:27017/ecommerce";
   await mongoose.connect(URL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   });
   console.log("mongodb connection established");
 }

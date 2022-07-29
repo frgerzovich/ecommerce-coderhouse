@@ -1,19 +1,17 @@
-import productsApi from "../containers/productsContainerMongo";
-
-const api = new productsApi("products.json");
+import { productDao } from "../daos/index.js";
 
 const get = async (req, res) => {
   if (req.params.id) {
     try {
-      const id = Number(req.params.id);
-      const product = await api.getById(id);
+      const id = req.params.id;
+      const product = await productDao.getById(id);
       res.json(product);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   } else {
     try {
-      const products = await api.getAll();
+      const products = await productDao.getAll();
       res.json(products);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -23,7 +21,7 @@ const get = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const product = await api.createProduct(req.body);
+    const product = await productDao.save(req.body);
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -32,8 +30,8 @@ const createProduct = async (req, res) => {
 
 const editProduct = async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    const product = await api.updateProduct(id, req.body);
+    const id = req.params.id;
+    const product = await productDao.update(id, req.body);
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -42,9 +40,12 @@ const editProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    const product = await api.deleteProduct(id);
-    res.json(product);
+    const id = req.params.id;
+    const product = await productDao.delete(id);
+    res
+      .send("El producto ha sido eliminado exitosamente")
+      .status(200)
+      .json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
