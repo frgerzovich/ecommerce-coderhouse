@@ -14,7 +14,14 @@ switch (process.env.DATABASE) {
     productDao = new MongoProductDao();
     break;
   case "firebase":
-    //acá pondré la lógica de firebase!
+    const { default: FirebaseCartDao } = await import(
+      "./carts/firebaseCartDao.js"
+    );
+    const { default: FirebaseProductDao } = await import(
+      "./products/firebaseProductDao.js"
+    );
+    cartDao = new FirebaseCartDao();
+    productDao = new FirebaseProductDao();
     break;
 }
 
