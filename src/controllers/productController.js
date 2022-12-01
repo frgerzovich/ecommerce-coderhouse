@@ -1,4 +1,4 @@
-import { productDao } from "../daos/index.js";
+import productDao from "../daos/productDao.js";
 
 const get = async (req, res) => {
   if (req.params.id) {

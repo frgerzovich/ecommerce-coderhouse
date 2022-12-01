@@ -1,4 +1,4 @@
-import Container from "../../containers/containerMongo.js";
+import Container from "../containers/containerMongo.js";
 
 class MongoProductDao extends Container {
   constructor() {
